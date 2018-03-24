@@ -27,12 +27,12 @@ class FileStringReplacement
   end
 
   def replace_regexp(file)
-    file.gsub(@before_regexp, @after_regexp)
+    file.gsub(@before_regexp) { @after_regexp }
   end
 
   def write_file(result)
     new_file = @file.dup.insert(@file.rindex('.'), "_#{@now}")
-    File.open(new_file, 'w') do |file|
+    File.open(new_file, 'wt:sjis:utf-8') do |file|
       file.write(result)
     end
   end
