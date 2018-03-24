@@ -1,0 +1,5 @@
+.\20180128 NT AUTHORITY\SYSTEM:(I)(OI)(CI)(F)
+           BUILTIN\Administrators:(I)(OI)(CI)(F)
+           DESKTOP-MUD9IB1\pattsuan:(I)(OI)(CI)(F)
+
+1 個のファイルが正常に処理されました。0 個のファイルを処理できませんでした
