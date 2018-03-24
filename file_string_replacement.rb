@@ -1,10 +1,8 @@
-# -*- encoding: utf-8 -*-
-
 # This class replaces string in file.
 # And make file with date on current directory.
 # How to use command is following.
 #
-#   ruby file_string_replacement.rb [before replacement string] [after replacement string]
+#   ruby file_string_replacement.rb [before string] [after string]
 class FileStringReplacement
   def initialize(file, before_regexp, after_regexp)
     @file = file
@@ -14,18 +12,16 @@ class FileStringReplacement
   end
 
   def start_replacement
-    begin
-      result = read_all_the_contents_in_file
-      write_file(result)
-    rescue SystemCallError => e
-      puts %Q(class=[#{e.class}] message=[#{e.message}])
-    rescue IOError => e
-      puts %Q(class=[#{e.class}] message=[#{e.message}])
-    end
+    result = read_all_the_contents_in_file
+    write_file(result)
+  rescue SystemCallError => e
+    puts "class=[#{e.class}] message=[#{e.message}]"
+  rescue IOError => e
+    puts "class=[#{e.class}] message=[#{e.message}]"
   end
 
   def read_all_the_contents_in_file
-    File.open(@file, mode = 'rt:sjis:utf-8') do |file|
+    File.open(@file, 'rt:sjis:utf-8') do |file|
       replace_regexp(file.read)
     end
   end
@@ -35,7 +31,7 @@ class FileStringReplacement
   end
 
   def write_file(result)
-    new_file = @file.dup.insert(@file.rindex("."), "_#{@now}")
+    new_file = @file.dup.insert(@file.rindex('.'), "_#{@now}")
     File.open(new_file, 'w') do |file|
       file.write(result)
     end
@@ -46,5 +42,5 @@ begin
   fsr = FileStringReplacement.new(*ARGV)
   fsr.start_replacement
 rescue ArgumentError => e
-  puts %Q(class=[#{e.class}] message=[#{e.message}])
+  puts "class=[#{e.class}] message=[#{e.message}]"
 end
