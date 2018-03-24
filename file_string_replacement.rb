@@ -8,7 +8,7 @@
 class FileStringReplacement
   def initialize(file, before_regexp, after_regexp)
     @file = file
-    @before_regexp = /#{before_regexp}/
+    @before_regexp = Regexp.new(before_regexp)
     @after_regexp = after_regexp
     @now = Time.now.strftime('%Y%m%d%H%M%S')
   end
