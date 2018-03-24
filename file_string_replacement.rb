@@ -12,7 +12,7 @@ class FileStringReplacement
   end
 
   def start_replacement
-    result = read_all_the_contents_in_file
+    result = read_all_contents_in_file
     write_file(result)
   rescue SystemCallError => e
     puts "class=[#{e.class}] message=[#{e.message}]"
@@ -20,7 +20,7 @@ class FileStringReplacement
     puts "class=[#{e.class}] message=[#{e.message}]"
   end
 
-  def read_all_the_contents_in_file
+  def read_all_contents_in_file
     File.open(@file, 'rt:sjis:utf-8') do |file|
       replace_regexp(file.read)
     end
