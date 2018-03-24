@@ -1,25 +1,50 @@
 # -*- encoding: utf-8 -*-
 
+# This class replaces string in file.
+# And make file with date on current directory.
+# How to use command is following.
+#
+#   ruby file_string_replacement.rb [before replacement string] [after replacement string]
 class FileStringReplacement
-  def initialize(file)
+  def initialize(file, before_regexp, after_regexp)
     @file = file
+    @before_regexp = /#{before_regexp}/
+    @after_regexp = after_regexp
+    @now = Time.now.strftime('%Y%m%d%H%M%S')
   end
 
-  def read_all_the_contents_in_file
+  def start_replacement
     begin
-      File.open(@file[0], mode = 'rt:sjis:utf-8') do |file|
-        file.read.split("\n").each do |str|
-          puts str
-        end
-      end
-    
+      result = read_all_the_contents_in_file
+      write_file(result)
     rescue SystemCallError => e
       puts %Q(class=[#{e.class}] message=[#{e.message}])
     rescue IOError => e
       puts %Q(class=[#{e.class}] message=[#{e.message}])
     end
   end
+
+  def read_all_the_contents_in_file
+    File.open(@file, mode = 'rt:sjis:utf-8') do |file|
+      replace_regexp(file.read)
+    end
+  end
+
+  def replace_regexp(file)
+    file.gsub(@before_regexp, @after_regexp)
+  end
+
+  def write_file(result)
+    new_file = @file.dup.insert(@file.rindex("."), "_#{@now}")
+    File.open(new_file, 'w') do |file|
+      file.write(result)
+    end
+  end
 end
 
-fsr = FileStringReplacement.new(ARGV)
-fsr.read_all_the_contents_in_file
+begin
+  fsr = FileStringReplacement.new(*ARGV)
+  fsr.start_replacement
+rescue ArgumentError => e
+  puts %Q(class=[#{e.class}] message=[#{e.message}])
+end
