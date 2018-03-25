@@ -1,10 +1,10 @@
 # This class replaces string in files in directory.
 # And make file into replacement directory with date on current directory.
+# If change regexp, please modify @XXXX_regexpX in initialize method.
 # How to use command is following.
 #
 #   ruby file_string_replacement.rb [directory]
 #
-# If change regexp, please modify @XXXX_regexpX in initialize method
 class AllFilesStringReplacement
   def initialize(directory, _none = nil)
     @now = Time.now.strftime('%Y%m%d%H%M%S')
